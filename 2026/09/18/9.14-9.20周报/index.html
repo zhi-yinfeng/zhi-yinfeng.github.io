@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en"><head>
+<title>9.14-9.20周报 - Hexo</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<meta name="description" content="9.14-9.20周报一.本周学习目标：熟悉搜索引擎高级检索语法，尝试部署 DeepSeek Harness 这类 AI Agent 工具。已完成： 学习 Google、Bing 高级搜索语法，方便快速筛选技术资料； 安装了npx @deepseek-ai&#x2F;dsh web，准备配置 AI Agent，了解了 token 相关基础概念；后续计划：稳定 token 来源，尝试用 Agent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="9.14-9.20周报">
+<meta property="og:url" content="https://zhi-yinfeng.github.io/2026/09/18/9.14-9.20%E5%91%A8%E6%8A%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="9.14-9.20周报一.本周学习目标：熟悉搜索引擎高级检索语法，尝试部署 DeepSeek Harness 这类 AI Agent 工具。已完成： 学习 Google、Bing 高级搜索语法，方便快速筛选技术资料； 安装了npx @deepseek-ai&#x2F;dsh web，准备配置 AI Agent，了解了 token 相关基础概念；后续计划：稳定 token 来源，尝试用 Agent">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-1.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-2.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-3.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-4.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-5.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-6.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-7.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-8.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-9.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/img/img-10.png">
+<meta property="article:published_time" content="2026-09-17T17:55:23.000Z">
+<meta property="article:modified_time" content="2026-09-18T15:36:53.911Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhi-yinfeng.github.io/img/img-1.png">
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1789746970446">
+
+<link rel="stylesheet" href="/css/style.css?v=1789746970446">
+
+
+
+
+    
+        <link rel="stylesheet" href="/custom.css?v=1789746970447">
+    
+
+
+
+<script src="/lib/mdui_043tiny/mdui.js" async></script>
+<script src="/lib/fancybox/fancybox.umd.js" async></script>
+<script src="/lib/lax.min.js" async></script>
+
+
+<script async src="/js/app.js?v=1789746970447"></script>
+
+ 
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4D4ZJ9G024"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "G-4D4ZJ9G024");
+</script>
+
+
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<meta name="generator" content="Hexo 7.0.0"></head><body class="nexmoe mdui-drawer-body-left"><div id="nexmoe-background"><div class="nexmoe-bg" style="background-image: url(https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png)"></div><div class="mdui-appbar mdui-shadow-0"><div class="mdui-toolbar"><a class="mdui-btn mdui-btn-icon mdui-ripple" mdui-drawer="{target: &#039;#drawer&#039;, swipe: true}" title="menu"><i class="mdui-icon nexmoefont icon-menu"></i></a><div class="mdui-toolbar-spacer"></div><a class="mdui-btn mdui-btn-icon" href="/" title="John Doe"><img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe"></a></div></div></div><div id="nexmoe-header"><div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="John Doe">
+            <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe" alt="John Doe">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>3</div>
+        <div><span>Tags</span>0</div>
+        <div><span>Categories</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" target="_blank" rel="noopener" href="https://nexmoe.com/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" target="_blank" rel="noopener" href="https://i.nexmoe.com/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/20238211"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/nexmoe/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/">2026</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/09/18/9.14-9.20%E5%91%A8%E6%8A%A5/">9.14-9.20周报</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/09/week-report-9.7/">9.7-9.13周报</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/09/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://nexmoe.com/" target="_blank" >
+                    <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="折影轻梦"></img>
+                    <p>折影轻梦</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+   
+    <div class="nexmoe-copyright">
+        &copy; 2026 John Doe
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a>
+<br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">
+<img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a>
+
+    </div>
+</div><!-- .nexmoe-drawer --></div><div id="nexmoe-content"><div class="nexmoe-primary"><div class="nexmoe-post">
+  <article>
+    
+        <div class="nexmoe-post-cover"> 
+            <img src="https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png" alt="9.14-9.20周报" loading="lazy">
+            <h1>9.14-9.20周报</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2026年09月18日</a>
+        
+        
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h1 id="9-14-9-20周报"><a href="#9-14-9-20周报" class="headerlink" title="9.14-9.20周报"></a>9.14-9.20周报</h1><h5 id="一-本周学习目标：熟悉搜索引擎高级检索语法，尝试部署-DeepSeek-Harness-这类-AI-Agent-工具。已完成："><a href="#一-本周学习目标：熟悉搜索引擎高级检索语法，尝试部署-DeepSeek-Harness-这类-AI-Agent-工具。已完成：" class="headerlink" title="一.本周学习目标：熟悉搜索引擎高级检索语法，尝试部署 DeepSeek Harness 这类 AI Agent 工具。已完成："></a>一.本周学习目标：熟悉搜索引擎高级检索语法，尝试部署 DeepSeek Harness 这类 AI Agent 工具。已完成：</h5><ol>
+<li>学习 Google、Bing 高级搜索语法，方便快速筛选技术资料；</li>
+<li>安装了npx @deepseek-ai&#x2F;dsh web，准备配置 AI Agent，了解了 token 相关基础概念；<br>后续计划：稳定 token 来源，尝试用 Agent 辅助 Web 安全学习、环境配置、整理复习资料，借助 AI 工具提升学习效率。</li>
+</ol>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-1.png" alt="img1" data-caption="img1" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-2.png" alt="img2" data-caption="img2" loading="lazy"></p>
+<h5 id="二-本周学习目标：本周完成-Burp-Suite-的安装配置："><a href="#二-本周学习目标：本周完成-Burp-Suite-的安装配置：" class="headerlink" title="二.本周学习目标：本周完成 Burp Suite 的安装配置："></a>二.本周学习目标：本周完成 Burp Suite 的安装配置：</h5><ul>
+<li>已能够使用 Proxy 模块抓取浏览器网络请求</li>
+<li>掌握 HTTP History 查看请求记录、Repeater 重放请求、Intruder 载荷爆破等基础功能操作</li>
+<li>同时学习 Markdown 基础语法，借助 Typora&#x2F;Obsidian 整理学习笔记，沉淀 Web 安全与工具使用相关知识。</li>
+</ul>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-3.png" alt="img3" data-caption="img3" loading="lazy"></p>
+<p>例如：Moectf中的MoeCatchTheFrogs题：</p>
+<ol>
+<li>首先阅读前端 JS 源码，寻找后端接口；使用 Burp Suite 代理抓包，在请求 Cookie 中发现frog_session字段。</li>
+<li>对该 Cookie 进行 Base64 解码，读取载荷内容{“frogs”:[0,1,2,3,4,5,6,7]}，判断这是 Flask 框架由 itsdangerous 生成的签名 Session Cookie。</li>
+<li>使用flask-unsign工具，搭配弱口令词表爆破 Flask 的SECRET_KEY，成功得到密钥qwe123456。</li>
+<li>使用获取到的密钥，重新签名构造新 Cookie，修改载荷为{“frogs”:[0,1,2,3,4,5,6,7,8]}。</li>
+<li>在 Burp Suite 的 Repeater 模块中，替换请求里的frog_sessionCookie，访问GET &#x2F;api&#x2F;claim接口，成功获取 flag。<br>通过本题练习，掌握了 Flask 签名 Cookie 的原理、爆破密钥与伪造 Session 的方法，巩固 Burp 抓包、修改请求重放的实操能力。</li>
+</ol>
+<h5 id="三-简单学习HTTP协议：（我有点忘记了好像是moectf2025年也有一道改cookie-referer的题已经会做了，但是找不到了，只能用一道类似的题来代替了😇）"><a href="#三-简单学习HTTP协议：（我有点忘记了好像是moectf2025年也有一道改cookie-referer的题已经会做了，但是找不到了，只能用一道类似的题来代替了😇）" class="headerlink" title="三.简单学习HTTP协议：（我有点忘记了好像是moectf2025年也有一道改cookie,referer的题已经会做了，但是找不到了，只能用一道类似的题来代替了😇）"></a>三.简单学习HTTP协议：（我有点忘记了好像是moectf2025年也有一道改cookie,referer的题已经会做了，但是找不到了，只能用一道类似的题来代替了😇）</h5><ul>
+<li>了解GET&amp;POST请求的主要作用与区别</li>
+<li>了解常⻅请求头（User-Agent，Cookie，Referer等）的作用和鉴权相关的字段（cookie，jwt，session）</li>
+<li>了解常⻅的状态码的含义（200，302，403，5xx等）</li>
+</ul>
+<p>例如：完成 BUUCTF [极客大挑战 2019] BuyFlag Web 实操：</p>
+<ol>
+<li>审计靶机前端 HTML 页面，从导航栏找到pay.php页面入口，查看页面注释获取后端 PHP 代码提示；</li>
+<li>使用 Burp Proxy 抓包，观察请求头 Cookie，发现user&#x3D;0作为身份鉴权字段；</li>
+<li>在 Burp Repeater 修改数据包：将 Cookie 的user&#x3D;0改为user&#x3D;1，同时把 GET 请求改为 POST 请求，构造 POST 参数password&#x3D;404a&amp;money&#x3D;1e9；</li>
+<li>重放数据包，服务器返回 200 状态码，成功获取 flag。<br>• 学习收获：理解 GET&#x2F;POST 请求差异，掌握 Cookie 身份鉴权原理，熟悉 HTTP 请求头、200&#x2F;403 状态码含义，熟练 BP 抓包改包操作。</li>
+</ol>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-4.png" alt="img4" data-caption="img4" loading="lazy"></p>
+<h5 id="四-简单了解前端三件套（HTML，JavaScript，CSS）："><a href="#四-简单了解前端三件套（HTML，JavaScript，CSS）：" class="headerlink" title="四.简单了解前端三件套（HTML，JavaScript，CSS）："></a>四.简单了解前端三件套（HTML，JavaScript，CSS）：</h5><ul>
+<li>HTML 是网页骨架，搭建页面元素与文档结构；（调节段落，标题什么的）</li>
+<li>CSS 负责页面样式美化，控制布局、颜色、字体等视觉效果；（页面的渲染）</li>
+<li>JavaScript 实现网页动态交互，响应用户操作，动态修改页面内容。（编程的内容）</li>
+</ul>
+<p>这个只是我的一个简单的理解，CSDN的博客也观看学习其中的内容了</p>
+<h5 id="五-熟悉使用F12之后的浏览器原生的devtools："><a href="#五-熟悉使用F12之后的浏览器原生的devtools：" class="headerlink" title="五.熟悉使用F12之后的浏览器原生的devtools："></a>五.熟悉使用F12之后的浏览器原生的devtools：</h5><ul>
+<li>Elements 面板：查看、临时修改 HTML 结构与 CSS 样式，可以实时调整页面元素的布局、颜色、边距，快速预览样式修改效果，方便定位样式错乱问题。（还并没有遇到用面板的题，后面会争取有更多的了解）</li>
+<li>Console 控制台：执行 JavaScript 代码，查看代码报错信息、打印日志，用来调试 JS 逻辑，定位脚本运行异常。（可以将一些所写的JavaScript代码直接放入控制台中来解决一些问题）</li>
+<li>Network 网络面板：查看页面发起的所有网络请求，包括请求参数、响应内容、请求状态码、加载耗时，可查看接口数据，排查资源加载失败、请求异常等问题。（网络中如果一直弹一个查询字符串，那我们可以将这个查询字符串接到URL后，有可能是这道题的突破口）</li>
+<li>其他基础功能：可查看页面资源、性能加载情况，辅助分析页面加载速度。</li>
+</ul>
+<p>也在浏览器中添加了插件Hackbar，并了解了Hackbar的基本用途：</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-5.png" alt="img5" data-caption="img5" loading="lazy"></p>
+<h5 id="六-用python-Flask框架-等任意后端语言-html写一个简单的登录⻚面"><a href="#六-用python-Flask框架-等任意后端语言-html写一个简单的登录⻚面" class="headerlink" title="六.用python(Flask框架)等任意后端语言+html写一个简单的登录⻚面"></a>六.用python(Flask框架)等任意后端语言+html写一个简单的登录⻚面</h5><p>我用豆包帮我简单打了一个后台，它写的内容已经看懂了😇</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-6.png" alt="img6" data-caption="img6" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-7.png" alt="img7" data-caption="img7" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-8.png" alt="img8" data-caption="img8" loading="lazy"></p>
+<p>打开我所建立的环境：</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-9.png" alt="img9" data-caption="img9" loading="lazy"></p>
+<p>访问<a target="_blank" rel="noopener" href="http://127.0.0.1:5000/">登录页面</a>：</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/img/img-10.png" alt="img10" data-caption="img10" loading="lazy"></p>
+<p>以上是我的周报，周六周天如果有时间的话还会完善一下解题步骤和所学知识的内容😇</p>
+<p>‍</p>
+
+    <p><img src="https://i.dawnlab.me/53a8c7cf3ad77a0f0a456ce2c6afe88a.png" loading="lazy"></p>
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>John Doe<br>
+        <strong>Link：</strong><a href="https://zhi-yinfeng.github.io/2026/09/18/9.14-9.20%E5%91%A8%E6%8A%A5/" title="https:&#x2F;&#x2F;zhi-yinfeng.github.io&#x2F;2026&#x2F;09&#x2F;18&#x2F;9.14-9.20%E5%91%A8%E6%8A%A5&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;zhi-yinfeng.github.io&#x2F;2026&#x2F;09&#x2F;18&#x2F;9.14-9.20%E5%91%A8%E6%8A%A5&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+</div>
+  
+  
+    <script async src="/js/copy-codeblock.js?v=1789746970432"></script>
+  
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置 slotComment
+
+      </div>
+  
+</div></div><div class="nexmoe-post-right">    <div class="nexmoe-fixed">
+        <div class="nexmoe-tool">
+
+            
+
+            
+            
+            <button class="mdui-fab catalog" style="overflow:unset;">
+                <i class="nexmoefont icon-i-catalog"></i>
+                <div class="nexmoe-toc">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#9-14-9-20%E5%91%A8%E6%8A%A5"><span class="toc-number">1.</span> <span class="toc-text">9.14-9.20周报</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%80-%E6%9C%AC%E5%91%A8%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87%EF%BC%9A%E7%86%9F%E6%82%89%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E8%AF%AD%E6%B3%95%EF%BC%8C%E5%B0%9D%E8%AF%95%E9%83%A8%E7%BD%B2-DeepSeek-Harness-%E8%BF%99%E7%B1%BB-AI-Agent-%E5%B7%A5%E5%85%B7%E3%80%82%E5%B7%B2%E5%AE%8C%E6%88%90%EF%BC%9A"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">一.本周学习目标：熟悉搜索引擎高级检索语法，尝试部署 DeepSeek Harness 这类 AI Agent 工具。已完成：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C-%E6%9C%AC%E5%91%A8%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87%EF%BC%9A%E6%9C%AC%E5%91%A8%E5%AE%8C%E6%88%90-Burp-Suite-%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="toc-number">1.0.0.0.2.</span> <span class="toc-text">二.本周学习目标：本周完成 Burp Suite 的安装配置：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%89-%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0HTTP%E5%8D%8F%E8%AE%AE%EF%BC%9A%EF%BC%88%E6%88%91%E6%9C%89%E7%82%B9%E5%BF%98%E8%AE%B0%E4%BA%86%E5%A5%BD%E5%83%8F%E6%98%AFmoectf2025%E5%B9%B4%E4%B9%9F%E6%9C%89%E4%B8%80%E9%81%93%E6%94%B9cookie-referer%E7%9A%84%E9%A2%98%E5%B7%B2%E7%BB%8F%E4%BC%9A%E5%81%9A%E4%BA%86%EF%BC%8C%E4%BD%86%E6%98%AF%E6%89%BE%E4%B8%8D%E5%88%B0%E4%BA%86%EF%BC%8C%E5%8F%AA%E8%83%BD%E7%94%A8%E4%B8%80%E9%81%93%E7%B1%BB%E4%BC%BC%E7%9A%84%E9%A2%98%E6%9D%A5%E4%BB%A3%E6%9B%BF%E4%BA%86%F0%9F%98%87%EF%BC%89"><span class="toc-number">1.0.0.0.3.</span> <span class="toc-text">三.简单学习HTTP协议：（我有点忘记了好像是moectf2025年也有一道改cookie,referer的题已经会做了，但是找不到了，只能用一道类似的题来代替了😇）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%9B-%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E5%89%8D%E7%AB%AF%E4%B8%89%E4%BB%B6%E5%A5%97%EF%BC%88HTML%EF%BC%8CJavaScript%EF%BC%8CCSS%EF%BC%89%EF%BC%9A"><span class="toc-number">1.0.0.0.4.</span> <span class="toc-text">四.简单了解前端三件套（HTML，JavaScript，CSS）：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%94-%E7%86%9F%E6%82%89%E4%BD%BF%E7%94%A8F12%E4%B9%8B%E5%90%8E%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%9F%E7%94%9F%E7%9A%84devtools%EF%BC%9A"><span class="toc-number">1.0.0.0.5.</span> <span class="toc-text">五.熟悉使用F12之后的浏览器原生的devtools：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%AD-%E7%94%A8python-Flask%E6%A1%86%E6%9E%B6-%E7%AD%89%E4%BB%BB%E6%84%8F%E5%90%8E%E7%AB%AF%E8%AF%AD%E8%A8%80-html%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%99%BB%E5%BD%95%E2%BB%9A%E9%9D%A2"><span class="toc-number">1.0.0.0.6.</span> <span class="toc-text">六.用python(Flask框架)等任意后端语言+html写一个简单的登录⻚面</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+                </div>
+            </button>
+            
+
+            
+
+            <a href="#nexmoe-content" class="backtop toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+        </div>
+    </div>
+</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="Search" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+</div></body></html>
