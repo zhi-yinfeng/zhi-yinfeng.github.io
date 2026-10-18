@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en"><head>
+<title>CTF解题思路 - Hexo</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<meta name="description" content="？CTF解题思路一.万界宝库打开BP代理，关闭拦截，打开内嵌浏览器，登陆进去，再看HTTP拦截记录，得到  发送到重放器，查看请求，知道这是一道jwt爆破题型 将rate的10改为1000000000得到   顺利解锁前三阶功法，第一阶功法得到： 1flag&#123;this_is_a_fake_flag&#125;  说明是假的flag，第二阶功法得到： 1dGhlIHNlY3JldCBpcy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF解题思路">
+<meta property="og:url" content="https://zhi-yinfeng.github.io/2026/10/18/CTF%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="？CTF解题思路一.万界宝库打开BP代理，关闭拦截，打开内嵌浏览器，登陆进去，再看HTTP拦截记录，得到  发送到重放器，查看请求，知道这是一道jwt爆破题型 将rate的10改为1000000000得到   顺利解锁前三阶功法，第一阶功法得到： 1flag&#123;this_is_a_fake_flag&#125;  说明是假的flag，第二阶功法得到： 1dGhlIHNlY3JldCBpcy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/1.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/2.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/3.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/4.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/5.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/6.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/7.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/8.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/9.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/10.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/11.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/12.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/13.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/14.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/15.png">
+<meta property="og:image" content="https://zhi-yinfeng.github.io/assets/16.png">
+<meta property="article:published_time" content="2026-10-18T02:54:59.000Z">
+<meta property="article:modified_time" content="2026-10-18T10:26:02.007Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhi-yinfeng.github.io/assets/1.png">
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1792319429455">
+
+<link rel="stylesheet" href="/css/style.css?v=1792319429456">
+
+
+
+
+    
+        <link rel="stylesheet" href="/custom.css?v=1792319429456">
+    
+
+
+
+<script src="/lib/mdui_043tiny/mdui.js" async></script>
+<script src="/lib/fancybox/fancybox.umd.js" async></script>
+<script src="/lib/lax.min.js" async></script>
+
+
+<script async src="/js/app.js?v=1792319429456"></script>
+
+ 
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4D4ZJ9G024"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "G-4D4ZJ9G024");
+</script>
+
+
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<meta name="generator" content="Hexo 7.0.0"></head><body class="nexmoe mdui-drawer-body-left"><div id="nexmoe-background"><div class="nexmoe-bg" style="background-image: url(https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png)"></div><div class="mdui-appbar mdui-shadow-0"><div class="mdui-toolbar"><a class="mdui-btn mdui-btn-icon mdui-ripple" mdui-drawer="{target: &#039;#drawer&#039;, swipe: true}" title="menu"><i class="mdui-icon nexmoefont icon-menu"></i></a><div class="mdui-toolbar-spacer"></div><a class="mdui-btn mdui-btn-icon" href="/" title="John Doe"><img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe"></a></div></div></div><div id="nexmoe-header"><div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="John Doe">
+            <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe" alt="John Doe">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>7</div>
+        <div><span>Tags</span>0</div>
+        <div><span>Categories</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" target="_blank" rel="noopener" href="https://nexmoe.com/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" target="_blank" rel="noopener" href="https://i.nexmoe.com/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/20238211"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/nexmoe/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/">2026</a><span class="archive-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/18/CTF%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF/">CTF解题思路</a>
+          </li>
+        
+          <li>
+            <a href="/2026/10/18/10.12-10.18/">10.12-10.18</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/23/9.21-9.27%E5%91%A8%E6%8A%A5/">SQL注入</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/18/9.14-9.20%E5%91%A8%E6%8A%A5/">9.14-9.20周报</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/09/week-report-9.7/">9.7-9.13周报</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://nexmoe.com/" target="_blank" >
+                    <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="折影轻梦"></img>
+                    <p>折影轻梦</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+   
+    <div class="nexmoe-copyright">
+        &copy; 2026 John Doe
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a>
+<br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">
+<img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a>
+
+    </div>
+</div><!-- .nexmoe-drawer --></div><div id="nexmoe-content"><div class="nexmoe-primary"><div class="nexmoe-post">
+  <article>
+    
+        <div class="nexmoe-post-cover"> 
+            <img src="https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png" alt="CTF解题思路" loading="lazy">
+            <h1>CTF解题思路</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2026年10月18日</a>
+        
+        
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h1 id="？CTF解题思路"><a href="#？CTF解题思路" class="headerlink" title="？CTF解题思路"></a>？CTF解题思路</h1><h4 id="一-万界宝库"><a href="#一-万界宝库" class="headerlink" title="一.万界宝库"></a>一.万界宝库</h4><p>打开BP代理，关闭拦截，打开内嵌浏览器，登陆进去，再看HTTP拦截记录，得到</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/1.png" alt="1" data-caption="1" loading="lazy"></p>
+<p>发送到重放器，查看请求，知道这是一道jwt爆破题型<img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/2.png" alt="2" data-caption="2" loading="lazy"></p>
+<p>将rate的10改为1000000000得到</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/3.png" alt="3" data-caption="3" loading="lazy"></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/4.png" alt="4" data-caption="4" loading="lazy"></p>
+<p>顺利解锁前三阶功法，第一阶功法得到：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;this_is_a_fake_flag&#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明是假的flag，第二阶功法得到：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dGhlIHNlY3JldCBpcyB3YW5qaWUxMjM0NTY<span class="operator">=</span></span><br></pre></td></tr></table></figure>
+
+<p>用base64解码得到：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the secret <span class="keyword">is</span> wanjie123456</span><br></pre></td></tr></table></figure>
+
+<p>知道了JWT 签名密钥，再用vault_token，解出 payload：</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/5.png" alt="5" data-caption="5" loading="lazy"></p>
+<p>再将得到的密钥、会员与散客修改为会员得到新的jwt</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/6.png" alt="6" data-caption="6" loading="lazy"></p>
+<p>将新的jwt输入到cookie中，得到flag{ac1e0ead-329e-474c-9914-b7a13f9b46a9}</p>
+<h4 id="二-webgogogo"><a href="#二-webgogogo" class="headerlink" title="二.webgogogo"></a>二.webgogogo</h4><p>F12被禁用，我们可以用ctrl+u来打开源代码，在源代码中看到</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/7.png" alt="7" data-caption="7" loading="lazy"></p>
+<p>将​<code>/stag32-5c6b162498b5e775a2d0b8b1</code>接入后得到第二关，再由提示得到拼接参数</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/8.png" alt="8" data-caption="8" loading="lazy"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?QuestionCTF<span class="operator">=</span><span class="number">1</span><span class="operator">&amp;</span>web<span class="operator">=</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>接入后得到第三关，F12打开网络面板</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/9.png" alt="9" data-caption="9" loading="lazy"></p>
+<p>服务器接收数据时，只认两个<strong>参数名（Key）</strong> ：一个是 ​<code>QuestionCTF</code>​，另一个是 ​<code>web</code>，打开BP，将GET传参变成POST传参</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/10.png" alt="10" data-caption="10" loading="lazy"></p>
+<p>再添加</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Content<span class="operator">-</span>Type: application<span class="operator">/</span>x<span class="operator">-</span>www<span class="operator">-</span>form<span class="operator">-</span>urlencoded</span><br><span class="line">QuestionCTF<span class="operator">=</span>hello_web<span class="operator">&amp;</span>web<span class="operator">=</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>（刚开始不明白为什么这么写，看完AI后，按我的理解就是QuestionCTF和web是设计者固定的两个参数名，是两个接收的信箱，而题中给的QuestionCTF和hello_web是两个信封，需要将这两个信封装在信箱里，如将QuestionCTF信封装到QuestionCTF的信箱中，会出现图片</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/11.png" alt="11" data-caption="11" loading="lazy"></p>
+<p>进入第四关，我们需将Cookie中添加taste &#x3D; good（注意：须在代理中改，不能在重放器中改，要不然浏览器可能会接收不到）</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/12.png" alt="12" data-caption="12" loading="lazy"></p>
+<p>进入第五关</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/13.png" alt="13" data-caption="13" loading="lazy"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">User</span><span class="operator">-</span>Agent: QuestionCTFExplorer<span class="operator">/</span><span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+
+<p>进入第六关</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/14.png" alt="14" data-caption="14" loading="lazy"></p>
+<p>先查看遗留下的线索ctrl+u得到</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=<span class="string">&quot;token-box&quot;</span> data-practice-note=<span class="string">&quot;QuestionCTF-jwt-secret-2026&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>密钥为QuestionCTF-jwt-secret-2026，打开<a href="jwt.io" title="jwt.io">jwt.io</a>,将所给的令牌输入JWT Decoder进去得到</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/15.png" alt="15" data-caption="15" loading="lazy"></p>
+<p>在转换到JWT Encoder，将user改为admin（管理员），再将QuestionCTF-jwt-secret-2026输入进密钥中，得到新的令牌，将令牌输入进去</p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="/assets/16.png" alt="16" data-caption="16" loading="lazy"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;<span class="number">0</span>d051289<span class="number">-5628</span><span class="number">-416</span>c<span class="operator">-</span>af19<span class="number">-6794277299</span>c6&#125;</span><br></pre></td></tr></table></figure>
+
+<p>‍</p>
+
+    
+  </article>
+
+  
+      
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+</div>
+  
+  
+    <script async src="/js/copy-codeblock.js?v=1792319429448"></script>
+  
+
+  
+      <div class="nexmoe-post-footer">
+          
+      </div>
+  
+</div></div><div class="nexmoe-post-right">    <div class="nexmoe-fixed">
+        <div class="nexmoe-tool">
+
+            
+
+            
+            
+            <button class="mdui-fab catalog" style="overflow:unset;">
+                <i class="nexmoefont icon-i-catalog"></i>
+                <div class="nexmoe-toc">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%9FCTF%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">？CTF解题思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80-%E4%B8%87%E7%95%8C%E5%AE%9D%E5%BA%93"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">一.万界宝库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C-webgogogo"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">二.webgogogo</span></a></li></ol></li></ol></li></ol></li></ol>
+                </div>
+            </button>
+            
+
+            
+
+            <a href="#nexmoe-content" class="backtop toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+        </div>
+    </div>
+</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="Search" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+</div></body></html>

